@@ -69,6 +69,9 @@ class Redis
       # @return [Array] 一组对象
       #
       def mget(objects, fields)
+        # 如果传入的是空集合，则什么都不做
+        return objects if objects.size == 0
+
         pools_with_name = fields.each_with_object({}) do |name, hash|
           pool = objects[0].class.redis_prop_redis_pool(name)
           hash[pool] ||= []
